@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PTM Parent Help - Select Section</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #0077ff, #00c6ff);
+        color: white;
+        font-family: 'Segoe UI', Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 40px;
+        text-align: center;
+        text-shadow: 2px 2px 5px #000;
+        margin: 15px 0 25px;
+    }
+
+    .terminal {
+        background: white;
+        color: #003366;
+        padding: 25px;
+        border-radius: 15px;
+        width: 90%;
+        max-width: 700px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.4);
+    }
+
+    h2 {
+        text-align: center;
+        margin-top: 0;
+    }
+
+    .selected-class {
+        text-align: center;
+        font-size: 24px;
+        font-weight: bold;
+        color: #0077ff;
+        margin-bottom: 25px;
+    }
+
+    .btn {
+        display: block;
+        width: 100%;
+        padding: 15px;
+        margin: 10px 0;
+        background: #00a86b;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-size: 20px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .btn:hover {
+        background: #008653;
+        transform: scale(1.02);
+    }
+
+    .back-btn {
+        background: #555;
+        margin-top: 20px;
+    }
+
+    .back-btn:hover {
+        background: #333;
+    }
+</style>
+</head>
+
+<body>
+
+<h1>🏫 PTM PARENT HELP TERMINAL</h1>
+
+<div class="terminal">
+
+    <h2>Step 2: Select Your Section</h2>
+
+    <div class="selected-class" id="selectedClass">
+        Loading...
+    </div>
+
+    <div id="sectionButtons"></div>
+
+    <button class="btn back-btn" onclick="goBack()">
+        ← Back to Classes
+    </button>
+
+</div>
+
+<script>
+
+const selectedClass = localStorage.getItem("selectedClass");
+
+
+/* FOUR SECTIONS FOR EVERY CLASS */
+
+const sections = {
+
+    "Nursery": ["A", "B", "C", "D"],
+
+    "KG": ["A", "B", "C", "D"],
+
+    "Class 1": ["A", "B", "C", "D"],
+
+    "Class 2": ["A", "B", "C", "D"],
+
+    "Class 3": ["A", "B", "C", "D"],
+
+    "Class 4": ["A", "B", "C", "D"],
+
+    "Class 5": ["A", "B", "C", "D"],
+
+    "Class 6": ["A", "B", "C", "D"],
+
+    "Class 7": ["A", "B", "C", "D"],
+
+    "Class 8": ["A", "B", "C", "D"],
+
+    "Class 9": ["A", "B", "C", "D"],
+
+    "Class 10": ["A", "B", "C", "D"],
+
+    "Class 11": ["A", "B", "C", "D"],
+
+    "Class 12": ["A", "B", "C", "D"]
+
+};
+
+
+/* DISPLAY SELECTED CLASS */
+
+if (selectedClass && sections[selectedClass]) {
+
+    document.getElementById("selectedClass").textContent =
+        "Selected: " + selectedClass;
+
+    const container =
+        document.getElementById("sectionButtons");
+
+
+    /* CREATE A, B, C, D BUTTONS */
+
+    sections[selectedClass].forEach(function(section) {
+
+        const button =
+            document.createElement("button");
+
+        button.className = "btn";
+
+        button.textContent =
+            "Section " + section;
+
+        button.onclick = function() {
+
+            localStorage.setItem(
+                "selectedSection",
+                section
+            );
+
+            window.location.href =
+                "location.html";
+
+        };
+
+        container.appendChild(button);
+
+    });
+
+} else {
+
+    document.getElementById("selectedClass").textContent =
+        "No class selected.";
+
+}
+
+
+/* BACK TO CLASS PAGE */
+
+function goBack() {
+
+    window.location.href =
+        "index.html";
+
+}
+
+</script>
+
+</body>
+</html>

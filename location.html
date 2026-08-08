@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PTM Parent Help - Location</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #0077ff, #00c6ff);
+        color: white;
+        font-family: 'Segoe UI', Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 40px;
+        text-align: center;
+        text-shadow: 2px 2px 5px #000;
+        margin: 15px 0 25px;
+    }
+
+    .terminal {
+        background: white;
+        color: #003366;
+        padding: 25px;
+        border-radius: 15px;
+        width: 90%;
+        max-width: 700px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.4);
+        text-align: center;
+    }
+
+    h2 {
+        margin-top: 0;
+    }
+
+    .selected-info {
+        font-size: 24px;
+        font-weight: bold;
+        color: #0077ff;
+        margin: 20px 0;
+    }
+
+    .map {
+        background: #e6f3ff;
+        border-radius: 15px;
+        padding: 25px;
+        margin: 20px 0;
+    }
+
+    .map-icon {
+        font-size: 90px;
+        margin: 10px;
+    }
+
+    .map-text {
+        font-size: 18px;
+        color: #003366;
+    }
+
+    .location-label {
+        font-size: 20px;
+        font-weight: bold;
+        color: #555;
+        margin-top: 20px;
+    }
+
+    .location {
+        font-size: 48px;
+        font-weight: bold;
+        color: #0077ff;
+        margin: 15px 0 25px;
+        text-transform: uppercase;
+    }
+
+    .btn {
+        display: block;
+        width: 100%;
+        padding: 15px;
+        margin: 10px 0;
+        background: #0077ff;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-size: 18px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .btn:hover {
+        background: #0055cc;
+        transform: scale(1.02);
+    }
+
+    .back-btn {
+        background: #555;
+    }
+
+    .back-btn:hover {
+        background: #333;
+    }
+
+    .home-btn {
+        background: #00a86b;
+    }
+
+    .home-btn:hover {
+        background: #008653;
+    }
+</style>
+</head>
+
+<body>
+
+<h1>🏫 PTM PARENT HELP TERMINAL</h1>
+
+<div class="terminal">
+
+    <h2>📍 YOUR PTM LOCATION</h2>
+
+    <div class="selected-info" id="selectedInfo">
+        Loading...
+    </div>
+
+    <div class="map">
+
+        <div class="map-icon">🗺️</div>
+
+        <div class="map-text">
+            Please follow the directions below.
+        </div>
+
+    </div>
+
+    <div class="location-label">
+        YOUR LOCATION IS:
+    </div>
+
+    <div class="location" id="locationText">
+        Loading...
+    </div>
+
+
+    <button class="btn back-btn" onclick="goBackToSections()">
+        ← Back to Sections
+    </button>
+
+    <button class="btn home-btn" onclick="goHome()">
+        🏠 Back to Classes
+    </button>
+
+</div>
+
+
+<script>
+
+/*
+   GET SELECTED CLASS AND SECTION
+*/
+
+const selectedClass =
+    localStorage.getItem("selectedClass");
+
+const selectedSection =
+    localStorage.getItem("selectedSection");
+
+
+/*
+   LOCATION DATA
+
+   CHANGE THESE LOCATIONS
+   ACCORDING TO YOUR SCHOOL.
+*/
+
+const locations = {
+
+    "Nursery-A": "GROUND FLOOR",
+    "Nursery-B": "GROUND FLOOR",
+    "Nursery-C": "GROUND FLOOR",
+    "Nursery-D": "GROUND FLOOR",
+
+    "KG-A": "GROUND FLOOR",
+    "KG-B": "GROUND FLOOR",
+    "KG-C": "GROUND FLOOR",
+    "KG-D": "GROUND FLOOR",
+
+    "Class 1-A": "FIRST FLOOR",
+    "Class 1-B": "FIRST FLOOR",
+    "Class 1-C": "FIRST FLOOR",
+    "Class 1-D": "FIRST FLOOR",
+
+    "Class 2-A": "FIRST FLOOR",
+    "Class 2-B": "FIRST FLOOR",
+    "Class 2-C": "FIRST FLOOR",
+    "Class 2-D": "FIRST FLOOR",
+
+    "Class 3-A": "FIRST FLOOR",
+    "Class 3-B": "FIRST FLOOR",
+    "Class 3-C": "FIRST FLOOR",
+    "Class 3-D": "FIRST FLOOR",
+
+    "Class 4-A": "SECOND FLOOR",
+    "Class 4-B": "SECOND FLOOR",
+    "Class 4-C": "SECOND FLOOR",
+    "Class 4-D": "SECOND FLOOR",
+
+    "Class 5-A": "SECOND FLOOR",
+    "Class 5-B": "SECOND FLOOR",
+    "Class 5-C": "SECOND FLOOR",
+    "Class 5-D": "SECOND FLOOR",
+
+    "Class 6-A": "SECOND FLOOR",
+    "Class 6-B": "SECOND FLOOR",
+    "Class 6-C": "SECOND FLOOR",
+    "Class 6-D": "SECOND FLOOR",
+
+    "Class 7-A": "THIRD FLOOR",
+    "Class 7-B": "THIRD FLOOR",
+    "Class 7-C": "THIRD FLOOR",
+    "Class 7-D": "THIRD FLOOR",
+
+    "Class 8-A": "THIRD FLOOR",
+    "Class 8-B": "THIRD FLOOR",
+    "Class 8-C": "THIRD FLOOR",
+    "Class 8-D": "THIRD FLOOR",
+
+    "Class 9-A": "THIRD FLOOR",
+    "Class 9-B": "THIRD FLOOR",
+    "Class 9-C": "THIRD FLOOR",
+    "Class 9-D": "THIRD FLOOR",
+
+    "Class 10-A": "THIRD FLOOR",
+    "Class 10-B": "THIRD FLOOR",
+    "Class 10-C": "THIRD FLOOR",
+    "Class 10-D": "THIRD FLOOR",
+
+    "Class 11-A": "FOURTH FLOOR",
+    "Class 11-B": "FOURTH FLOOR",
+    "Class 11-C": "FOURTH FLOOR",
+    "Class 11-D": "FOURTH FLOOR",
+
+    "Class 12-A": "FOURTH FLOOR",
+    "Class 12-B": "FOURTH FLOOR",
+    "Class 12-C": "FOURTH FLOOR",
+    "Class 12-D": "FOURTH FLOOR"
+
+};
+
+
+/*
+   DISPLAY INFORMATION
+*/
+
+if (selectedClass && selectedSection) {
+
+    document.getElementById("selectedInfo").textContent =
+        selectedClass + " — Section " + selectedSection;
+
+    const key =
+        selectedClass + "-" + selectedSection;
+
+    document.getElementById("locationText").textContent =
+        locations[key] || "ASK A STUDENT VOLUNTEER";
+
+}
+
+
+/*
+   BACK TO SECTION PAGE
+*/
+
+function goBackToSections() {
+
+    window.location.href =
+        "sections.html";
+
+}
+
+
+/*
+   BACK TO HOME PAGE
+*/
+
+function goHome() {
+
+    window.location.href =
+        "index.html";
+
+}
+
+</script>
+
+</body>
+</html>
